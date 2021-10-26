@@ -14,11 +14,12 @@ public class Application {
 
         System.out.println("Please enter first name");
         Customer customer = new Customer();
-        customer.setFirstName(getInfo());
+        customer.setFirstName(setFirstAndLastName());
         System.out.println("Please enter last name");
-        customer.setLastName(getInfo());
+        customer.setLastName(setFirstAndLastName());
         System.out.println("Please enter your phone number or e-mail");
-        customer.setPhoneNumber(setPhoneEmail());
+        customer.setPhoneNumber(setPhoneOrEmail());
+
         Device device = new Device();
         System.out.println("Please enter your device type:");
         device.setType(chooseDeviceType());
@@ -28,24 +29,28 @@ public class Application {
         device.setModel(enterInfo());
         System.out.println("Please enter problem:");
         device.setProblem(enterInfo());
+
         Order order = new Order();
         order.setCustomer(customer);
         List<Device> devices = new ArrayList<>();
         devices.add(device);
         order.setDevices(devices);
-       // writeObject(order);
+
+        ObjectWriter writer = new ObjectWriter();
+        writer.writeObject(order);
+
         close();
 
     }
 
-    private static String getInfo() {
+    private static String setFirstAndLastName() {
         String info;
         do {
             info = enterInfo();
-            if (!validatedInput(info)) {                         //доробив оце
-                System.out.println("!!!Wrong enter!!!");        //доробив оце
+            if (!validatedInputOnlyLetters(info)) {
+                System.out.println("!!!Wrong enter!!!");
             }
-        } while (!validatedInput(info));
+        } while (!validatedInputOnlyLetters(info));
         return info;
     }
 
@@ -54,14 +59,13 @@ public class Application {
         return sc.nextLine();
     }
 
-    private static boolean validatedInput(String s) {
+    private static boolean validatedInputOnlyLetters(String s) {
         return s.matches("[a-zA-Z]+");
     }
 
     private static boolean validatedInputDevice(String s) {                       // зробив цей метод
         return s.equals("1") || s.equals("2") || s.equals("3");
     }
-
 
     private static void close() {
         sc.close();
@@ -97,21 +101,19 @@ public class Application {
             throw new IllegalArgumentException("Illegal device type");
         }
     }
-/////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    public static boolean validateEmailPhone(String s){
+    public static boolean validateEmailAndPhone(String s){
        return s.matches("^[A-Za-z0-9+_.-]+@(.+)$") || s.matches("[0-9]+");
-
     }
-    public static String setPhoneEmail(){
+
+    public static String setPhoneOrEmail(){
         String info;
         do {
             info = enterInfo();
-            if(!validateEmailPhone(info)){
+            if(!validateEmailAndPhone(info)){
                 System.out.println("!!!Wrong enter!!!");
             }
-        } while (!validateEmailPhone(info));
+        } while (!validateEmailAndPhone(info));
         return info;                                        ////////////////////?????????????????? NULL?????????
     }
 }
