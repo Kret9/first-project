@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 public class ReadObject {
     public static void main(String[] args) {
         try {
-            FileInputStream fis = new FileInputStream("order.bin");
+            FileInputStream fis = new FileInputStream("order.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             Order order = (Order) ois.readObject();
             System.out.println(order);
