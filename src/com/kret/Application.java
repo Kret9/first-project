@@ -8,9 +8,7 @@ import java.util.Scanner;
 
 public class Application {
 
-
     private static Scanner sc = new Scanner(System.in);
-
 
     public static void main(String[] args) {
 
@@ -21,7 +19,6 @@ public class Application {
         customer.setLastName(getInfo());
         System.out.println("Please enter your phone number or e-mail");
         customer.setPhoneNumber(setPhoneEmail());
-////////////////////////////////////////////////////////////////////////////////////////
         Device device = new Device();
         System.out.println("Please enter your device type:");
         device.setType(chooseDeviceType());
@@ -31,16 +28,12 @@ public class Application {
         device.setModel(enterInfo());
         System.out.println("Please enter problem:");
         device.setProblem(enterInfo());
-    ////////////////////////////////////////////////////////////////////////////////////
         Order order = new Order();
         order.setCustomer(customer);
         List<Device> devices = new ArrayList<>();
         devices.add(device);
         order.setDevices(devices);
-        writeObject(order);
-
-
-
+       // writeObject(order);
         close();
 
     }
@@ -105,18 +98,7 @@ public class Application {
         }
     }
 /////////////////////////////////////////////////////////////////////////////////////////////
-    public static void writeObject( Object a) {
-        try {
-            FileOutputStream fos = new FileOutputStream("order.bin");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(a);
 
-            oos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public static boolean validateEmailPhone(String s){
        return s.matches("^[A-Za-z0-9+_.-]+@(.+)$") || s.matches("[0-9]+");
