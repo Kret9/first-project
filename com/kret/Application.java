@@ -10,7 +10,7 @@ public class Application {
 
     private static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         System.out.println("Please enter first name");
         Customer customer = new Customer();
@@ -36,8 +36,18 @@ public class Application {
         devices.add(device);
         order.setDevices(devices);
 
-        ObjectWriter writer = new ObjectWriter();
-        writer.writeObject(order);
+        System.out.println("Do you want write information to the file?");
+        System.out.println("Please enter Y if Yes");
+        System.out.println("Please enter N if No");
+        writeObject(order);
+
+
+
+//        ObjectWriter writer = new ObjectWriter();         //////// Тут багато exceptions в main
+//        writer.writeOrder(order);
+
+        ReadObject reader = new ReadObject();          //////// Тут багато exceptions в main
+        reader.readOrder();
 
         close();
 
@@ -71,7 +81,7 @@ public class Application {
         sc.close();
     }
 
-    private static DeviceType chooseDeviceType() {                     //зробив цей метод
+    private static DeviceType chooseDeviceType() {
         System.out.println("Enter 1 if your device is smartphone");
         System.out.println("Enter 2 if your device is laptop");
         System.out.println("Enter 3 if your device is tablet");
@@ -84,9 +94,7 @@ public class Application {
             } catch (IllegalArgumentException e){
                 System.out.println(e.getMessage());
             }
-            //System.out.println("Wrong option");
         } while (!validatedInputDevice(info));
-
         return null;                                            //???????????????? NULL
     }
 
@@ -115,5 +123,13 @@ public class Application {
             }
         } while (!validateEmailAndPhone(info));
         return info;                                        ////////////////////?????????????????? NULL?????????
+    }
+
+    public static void writeObject (Order a) throws IOException {
+        String info = enterInfo();
+        if(info.equalsIgnoreCase("y")){
+            ObjectWriter writer = new ObjectWriter();
+            writer.writeOrder(a);
+        }
     }
 }

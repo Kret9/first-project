@@ -5,6 +5,7 @@ import java.util.Objects;
 
 
 public class Device implements Serializable {
+
     private String vendor;
     private String model;
     private String problem;
